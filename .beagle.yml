@@ -1,0 +1,98 @@
+platform: 10.11.92.36
+
+workspace:
+  base: /go
+  path: src/github.com/docker/libnetwork
+
+clone:
+  git:
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    dns: 223.5.5.5
+
+pipeline:
+
+  cmake:
+    image: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye
+    dns: 223.5.5.5
+    volumes:
+      - /data/cache/golang/pkg/:/go/pkg/
+    environment:
+      - GOPROXY=https://goproxy.cn
+      - GOARCH=amd64
+    commands:
+      - bash .beagle/build.sh
+
+  docker:
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    dns: 223.5.5.5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3.12
+    dockerfile: .beagle/dockerfile
+    cwd: dist
+    repo: wod/docker-proxy
+    version: 19.03
+    args: "TARGETOS=linux,TARGETARCH=amd64"
+    registry: registry.cn-qingdao.aliyuncs.com
+    secrets:
+      - source: REGISTRY_USER_ALIYUN
+        target: REGISTRY_USER
+      - source: REGISTRY_PASSWORD_ALIYUN
+        target: REGISTRY_PASSWORD
+
+  docker-arm64:
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    dns: 223.5.5.5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3.12-arm64
+    dockerfile: .beagle/dockerfile
+    cwd: dist
+    repo: wod/docker-proxy
+    version: 19.03
+    channel: "arm64"
+    args: "TARGETOS=linux,TARGETARCH=arm64"
+    registry: registry.cn-qingdao.aliyuncs.com
+    secrets:
+      - source: REGISTRY_USER_ALIYUN
+        target: REGISTRY_USER
+      - source: REGISTRY_PASSWORD_ALIYUN
+        target: REGISTRY_PASSWORD
+
+  docker-ppc64le:
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    dns: 223.5.5.5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3.12-ppc64le
+    dockerfile: .beagle/dockerfile
+    cwd: dist
+    repo: wod/docker-proxy
+    version: 19.03
+    channel: "ppc64le"
+    args: "TARGETOS=linux,TARGETARCH=ppc64le"
+    registry: registry.cn-qingdao.aliyuncs.com
+    secrets:
+      - source: REGISTRY_USER_ALIYUN
+        target: REGISTRY_USER
+      - source: REGISTRY_PASSWORD_ALIYUN
+        target: REGISTRY_PASSWORD
+
+  docker-mips64le:
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    dns: 223.5.5.5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3.11-mips64le
+    dockerfile: .beagle/dockerfile
+    cwd: dist
+    repo: wod/docker-proxy
+    version: 19.03
+    channel: "mips64le"
+    args: "TARGETOS=linux,TARGETARCH=mips64le"
+    registry: registry.cn-qingdao.aliyuncs.com
+    secrets:
+      - source: REGISTRY_USER_ALIYUN
+        target: REGISTRY_USER
+      - source: REGISTRY_PASSWORD_ALIYUN
+        target: REGISTRY_PASSWORD
