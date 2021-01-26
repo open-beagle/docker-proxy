@@ -11,8 +11,8 @@ clone:
 
 pipeline:
 
-  cmake:
-    image: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye
+  go:
+    image: registry.cn-qingdao.aliyuncs.com/wod/golang:1.15.6-buster
     dns: 223.5.5.5
     volumes:
       - /data/cache/golang/pkg/:/go/pkg/
