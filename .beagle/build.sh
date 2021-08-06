@@ -12,6 +12,3 @@ go build -ldflags="-w -s" -o "dist/linux-$GOARCH/docker-proxy" ./cmd/proxy
 
 export GOARCH=ppc64le
 go build -ldflags="-w -s" -o "dist/linux-$GOARCH/docker-proxy" ./cmd/proxy
-
-export GOARCH=mips64le
-go build -ldflags="-w -s" -o "dist/linux-$GOARCH/docker-proxy" ./cmd/proxy

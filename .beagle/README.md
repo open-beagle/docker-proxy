@@ -16,6 +16,7 @@ docker run -it --rm \
 -v /go/pkg/:/go/pkg/ \
 -v $PWD/:/go/src/github.com/docker/libnetwork \
 -w /go/src/github.com/docker/libnetwork \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.15.6-buster \
+-e GO111MODULE=off \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.16.6-buster-amd64 \
 bash .beagle/build.sh
 ```
