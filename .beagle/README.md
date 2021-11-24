@@ -11,12 +11,12 @@ git merge upstream/bump_19.03
 ## build
 
 ```bash
-# x86_64
+# build
 docker run -it --rm \
 -v /go/pkg/:/go/pkg/ \
 -v $PWD/:/go/src/github.com/docker/libnetwork \
 -w /go/src/github.com/docker/libnetwork \
 -e GO111MODULE=off \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.16.6-buster-amd64 \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.17.3-bullseye \
 bash .beagle/build.sh
 ```
